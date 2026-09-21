@@ -1,15 +1,6 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.12+-blue.svg?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/FastAPI-0.141+-009688.svg?logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/UI-127.0.0.1:8080-orange.svg?logo=google-chrome&logoColor=white" alt="Web UI">
-  <img src="https://img.shields.io/badge/API-127.0.0.1:5555-purple.svg?logo=swagger&logoColor=white" alt="Web API">
-  <img src="https://img.shields.io/badge/Platform-Douyin%20%7C%20TikTok-red.svg?logo=tiktok&logoColor=white" alt="Platform">
-  <img src="https://img.shields.io/badge/License-GPL--3.0-green.svg" alt="License">
-</p>
+<h1>TikTokDownloader</h1>
 
-<h1 align="center">TikTokDownloader</h1>
-
-<p align="center">
+<p>
   面向开发者的抖音 / TikTok 多维度数据采集工具<br>
   提供 Web UI · Web API · 终端交互 三种使用方式
 </p>
