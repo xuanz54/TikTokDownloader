@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抖音数据采集台</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <img src="/static/images/DouK-Downloader.png" alt="logo" class="logo">
+    <div>
+      <h1>抖音数据采集台</h1>
+      <p class="sub">抖音 / TikTok 作品 · 账号 · 合集 · 评论 · 直播 · 热榜</p>
+    </div>
+  </div>
+  <div class="status">
+    <span id="env-cookie" class="pill">Cookie: 未设置</span>
+    <span id="env-root" class="pill" title="文件保存目录"></span>
+    <span id="env-ver" class="pill"></span>
+    <button id="theme-toggle" class="theme-toggle" title="切换主题">☀️</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="detail">作品采集</button>
+  <button class="tab-btn" data-tab="account">账号作品</button>
+  <button class="tab-btn" data-tab="mix">合集作品</button>
+  <button class="tab-btn" data-tab="comment">作品评论</button>
+  <button class="tab-btn" data-tab="user">账号详情</button>
+  <button class="tab-btn" data-tab="live">直播数据</button>
+  <button class="tab-btn" data-tab="hot">抖音热榜</button>
+  <button class="tab-btn" data-tab="settings">设置</button>
+</nav>
+
+<main>
+  <!-- 作品采集 -->
+  <section id="tab-detail" class="tab-pane active">
+    <div class="card form-card">
+      <h2>获取单个 / 批量作品数据</h2>
+      <p class="hint">粘贴抖音 / TikTok 作品分享链接或作品 ID（支持一行多个，空格 / 逗号 / 换行分隔）</p>
+      <textarea id="detail-input" rows="4" placeholder="例如：https://v.douyin.com/xxxxx/ 或 7408603161984074300"></textarea>
+      <div class="row">
+        <div class="platform-toggle" id="detail-platform">
+          <button type="button" data-value="douyin" class="active">抖音</button>
+          <button type="button" data-value="tiktok">TikTok</button>
+        </div>
+        <button class="btn primary" id="detail-btn">采集数据</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 账号作品 -->
+  <section id="tab-account" class="tab-pane">
+    <div class="card form-card">
+      <h2>获取账号全部作品</h2>
+      <p class="hint">粘贴账号主页链接，例如 <code>https://www.douyin.com/user/MS4wLjAB... </code>或 <code>https://www.tiktok.com/@xxx</code></p>
+      <input id="account-input" type="text" placeholder="账号主页链接">
+      <div class="row">
+        <label class="inline-label">
+          作品类型
+          <select id="account-tab">
+            <option value="post">发布作品</option>
+            <option value="favorite">喜欢作品</option>
+            <option value="collection">收藏作品</option>
+          </select>
+        </label>
+        <label class="inline-label">
+          最大请求页数（可不填）
+          <input id="account-pages" type="number" min="1" placeholder="不限">
+        </label>
+        <div class="platform-toggle" id="account-platform">
+          <button type="button" data-value="douyin" class="active">抖音</button>
+          <button type="button" data-value="tiktok">TikTok</button>
+        </div>
+        <button class="btn primary" id="account-btn">采集账号作品</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合集作品 -->
+  <section id="tab-mix" class="tab-pane">
+    <div class="card form-card">
+      <h2>获取合集全部作品</h2>
+      <p class="hint">粘贴合集链接，或直接输入合集 mix_id / 作品 detail_id</p>
+      <input id="mix-input" type="text" placeholder="合集链接或 mix_id">
+      <div class="row">
+        <div class="platform-toggle" id="mix-platform">
+          <button type="button" data-value="douyin" class="active">抖音</button>
+          <button type="button" data-value="tiktok">TikTok</button>
+        </div>
+        <button class="btn primary" id="mix-btn">获取合集作品</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 作品评论 -->
+  <section id="tab-comment" class="tab-pane">
+    <div class="card form-card">
+      <h2>获取作品评论数据</h2>
+      <p class="hint">输入作品 ID（从作品链接中提取，例如 https://www.douyin.com/video/<b>7123456789</b>）</p>
+      <input id="comment-input" type="text" placeholder="作品 ID（aweme_id）">
+      <div class="row">
+        <button class="btn primary" id="comment-btn">获取评论</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 账号详情 -->
+  <section id="tab-user" class="tab-pane">
+    <div class="card form-card">
+      <h2>获取账号详细资料</h2>
+      <p class="hint">粘贴账号主页链接，获取账号的详细资料（粉丝数、获赞、简介等）</p>
+      <input id="user-input" type="text" placeholder="账号主页链接或 sec_user_id">
+      <div class="row">
+        <div class="platform-toggle" id="user-platform">
+          <button type="button" data-value="douyin" class="active">抖音</button>
+          <button type="button" data-value="tiktok">TikTok</button>
+        </div>
+        <button class="btn primary" id="user-btn">获取账号详情</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 直播数据 -->
+  <section id="tab-live" class="tab-pane">
+    <div class="card form-card">
+      <h2>获取直播拉流地址</h2>
+      <p class="hint">粘贴直播间链接，获取直播拉流地址（FLV / M3U8）</p>
+      <input id="live-input" type="text" placeholder="直播间链接，例如 https://live.douyin.com/xxxxx">
+      <div class="row">
+        <div class="platform-toggle" id="live-platform">
+          <button type="button" data-value="douyin" class="active">抖音</button>
+          <button type="button" data-value="tiktok">TikTok</button>
+        </div>
+        <button class="btn primary" id="live-btn">获取直播数据</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 抖音热榜 -->
+  <section id="tab-hot" class="tab-pane">
+    <div class="card form-card">
+      <h2>抖音热榜数据</h2>
+      <p class="hint">一键获取抖音热榜、娱乐榜、社会榜、挑战榜的实时热搜数据</p>
+      <div class="row">
+        <button class="btn primary" id="hot-btn">获取热榜</button>
+        <button class="btn" id="hot-export-btn" style="display:none">导出热榜 Excel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 设置 -->
+  <section id="tab-settings" class="tab-pane">
+    <div class="card form-card">
+      <h2>配置</h2>
+      <p class="hint">Cookie / 代理可在此保存到 <code>settings.json</code>（重启后自动生效），保存前优先填写在下面的表单并点击「应用设置」</p>
+      <div class="grid2">
+        <label class="field-label">抖音 Cookie
+          <textarea id="set-cookie" rows="3" placeholder="粘贴抖音 Cookie"></textarea>
+        </label>
+        <label class="field-label">TikTok Cookie
+          <textarea id="set-cookie-tiktok" rows="3" placeholder="粘贴 TikTok Cookie"></textarea>
+        </label>
+        <label class="field-label">抖音代理
+          <input id="set-proxy" type="text" placeholder="例如 http://127.0.0.1:7890">
+        </label>
+        <label class="field-label">TikTok 代理
+          <input id="set-proxy-tiktok" type="text" placeholder="例如 http://127.0.0.1:7890">
+        </label>
+      </div>
+      <div class="row">
+        <label class="check-label"><input id="set-download" type="checkbox"> 允许保存/下载文件</label>
+        <button class="btn" id="set-apply-btn">应用到本次请求</button>
+        <button class="btn primary" id="set-save-btn">保存到 settings.json</button>
+        <button class="btn" id="open-folder-btn">打开下载文件夹</button>
+      </div>
+      <p class="hint" id="set-tip"></p>
+    </div>
+  </section>
+
+  <!-- 进度 / 结果 -->
+  <section id="result-area">
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span id="loading-text">正在采集数据...</span>
+    </div>
+    <div id="select-bar" class="select-bar hidden">
+      <label><input type="checkbox" id="select-all"> 全选</label>
+      <span class="sep"></span>
+      <span id="select-count" class="selected-count"></span>
+      <span style="flex:1"></span>
+      <button class="btn small" id="download-selected-btn">下载选中到本机</button>
+      <button class="btn small primary" id="export-excel-btn">导出 Excel</button>
+    </div>
+    <div id="result-head" class="result-head hidden">
+      <span id="result-summary"></span>
+      <button class="btn" id="save-all-btn">全部保存到本机</button>
+    </div>
+    <div id="cards" class="cards"></div>
+    <div id="empty" class="hidden"></div>
+  </section>
+</main>
+
+<div id="toast-root"></div>
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close">✕</button>
+    <h3 id="modal-title"></h3>
+    <pre id="modal-body"></pre>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
